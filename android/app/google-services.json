@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "816543430330",
+    "project_id": "food-order-project-nasi",
+    "storage_bucket": "food-order-project-nasi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816543430330:android:088a60dc6988ea3505b483",
+        "android_client_info": {
+          "package_name": "com.example.food_order_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816543430330-tcd5h37htcfh5v68j8p5r5icitt0ba14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwwg_0RQF5Pb7BbaNGwCQFIinRuyd-Yjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816543430330-tcd5h37htcfh5v68j8p5r5icitt0ba14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
