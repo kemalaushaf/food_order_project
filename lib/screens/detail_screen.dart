@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:food_order_project/screens/admin_home.dart';
 import 'package:food_order_project/screens/home_screen.dart';
 import 'package:food_order_project/theme.dart';
-import 'package:food_order_project/main.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:food_order_project/widgets/size_card.dart';
 import 'package:food_order_project/models/size.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:food_order_project/api/notification_api.dart';
 
 class DetailScreen extends StatefulWidget {
   int id;
@@ -19,6 +21,7 @@ class DetailScreen extends StatefulWidget {
       this.note, this.isPromo,
       {Key? key})
       : super(key: key);
+
 
   @override
   State<DetailScreen> createState() =>
@@ -53,18 +56,37 @@ class _DetailScreen extends State<DetailScreen> {
     this._isPromo,
   );
 
-// const name({Key? key}) : super(key: key);
-  int dataPrice = 28; // data dari firebase
-  int dataPricePromo = 22; //data dari firebase
+  
 
-  int price = 28;
-  int pricePromo = 22;
+// const name({Key? key}) : super(key: key);
+  late int dataPrice = _price; // data dari firebase
+  late int dataPricePromo = _pricePromo; //data dari firebase
+
+  late int price = _price;
+  late int pricePromo = _pricePromo;
 
   int i = 1;
   bool isMini = true; //harga tetap
   bool isNormal = false; //harga +2000
   bool isBig = false; //harga +4000
   bool isSuperBig = false; //harga +6000
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  
+  void initState(){
+    super.initState();
+
+    NotificationApi.init();
+    listenNotifications();
+  }
+
+  void listenNotifications()=>
+    NotificationApi.onNotifications.stream.listen(onClickedNotification);
+
+  void onClickedNotification(String? payload) =>
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => Admin_home(),
+      ));
 
   void _minus() {
     if (i > 1) {
@@ -435,6 +457,7 @@ class _DetailScreen extends State<DetailScreen> {
                                 ],
                               ),
                             ),
+                            const SizedBox(),
                             SizedBox(height: 18),
                             Container(
                               width: MediaQuery.of(context).size.width,
@@ -451,10 +474,15 @@ class _DetailScreen extends State<DetailScreen> {
                                 hoverElevation: 0,
                                 highlightElevation: 0,
                                 disabledElevation: 0,
-                                onPressed: () {
+                                onPressed:()=>NotificationApi.showNotification(
+                                  title:'Admin',
+                                  body:'NEW ORDER FROM CUSTOMER !!',
+                                  payload: 'ORDER FROM CUSTOMER',
+                                ),
+                                /*onPressed: () {
                                   launchUrl(
                                       "https://wa.me/6281284904992?text=I%20want%20to%20buy%20$_name%20$i%20=%20RM%20$pricePromo");
-                                },
+                                },*/
                                 color: yellowColor,
                                 child: Text(
                                   'Buy',
