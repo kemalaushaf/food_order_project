@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_order_project/screens/create_menu.dart';
+import 'package:food_order_project/screens/update_menu.dart';
+import 'package:food_order_project/screens/delete_menu.dart';
+import 'package:food_order_project/api/notification_api.dart';
 
 class Admin_home extends StatelessWidget {
   Widget _buildSingleContainer({
@@ -86,24 +90,48 @@ class Admin_home extends StatelessWidget {
                   child: GridView.count(
                     crossAxisCount: 2,
                     children: [
-                      _buildSingleContainer(
-                        context: context,
-                        count: 1,
-                        icon: Icons.person,
-                        name: "User",
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateMenu()));
+                        },
+                        child: _buildSingleContainer(
+                          context: context,
+                          count: 1,
+                          icon: Icons.person,
+                          name: "CREATE MENU",
+                        ),
                       ),
-                      _buildSingleContainer(
-                        context: context,
-                        count: 12,
-                        icon: Icons.category,
-                        name: "Categories",
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UpdateMenu()));
+                        },
+                        child: _buildSingleContainer(
+                          context: context,
+                          count: 1,
+                          icon: Icons.person,
+                          name: "UPDATE MENU",
+                        ),
                       ),
-                      _buildSingleContainer(
-                        context: context,
-                        count: 30,
-                        icon: Icons.food_bank,
-                        name: "Product",
-                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DeleteMenu()));
+                        },
+                        child: _buildSingleContainer(
+                          context: context,
+                          count: 1,
+                          icon: Icons.person,
+                          name: "DELETE MENU",
+                        ),
+                      ),                      
                     ],
                   ),
                 ),
