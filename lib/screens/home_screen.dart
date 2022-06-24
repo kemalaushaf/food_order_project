@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order_project/models/menu.dart';
 import 'package:food_order_project/screens/login_screen.dart';
+import 'package:food_order_project/screens/chat_page.dart';
 import 'package:food_order_project/theme.dart';
 import 'package:food_order_project/widgets/menu_card.dart';
 
@@ -14,6 +15,15 @@ class HomeScreen extends StatelessWidget {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference products = firestore.collection('products');
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Chatpage()));
+        },
+        icon: const Icon(Icons.chat_bubble),
+        label: const Text('Chat with us!'),
+        backgroundColor: Colors.orange,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
