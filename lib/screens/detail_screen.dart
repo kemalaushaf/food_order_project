@@ -511,11 +511,40 @@ class _DetailScreen extends State<DetailScreen> {
                                 launchUrl(
                                       "https://wa.me/6281284904992?text=I%20want%20to%20buy%20$_name%20$i%20=%20RM%20$pricePromo"
                                 );
-                                _createPDF();
                                       },                              
                                 color: yellowColor,
                                 child: Text(
                                   'Buy',
+                                  style: poppinsTextStyle.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    color: whiteColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                                                        SizedBox(height: 18),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: RaisedButton(
+                                padding: EdgeInsets.only(
+                                  top: 12,
+                                  bottom: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                elevation: 0,
+                                focusElevation: 0,
+                                hoverElevation: 0,
+                                highlightElevation: 0,
+                                disabledElevation: 0,
+                                onPressed: () {
+                                  _createPDF();
+                                },
+                                color: Colors.red,
+                                child: Text(
+                                  'print pdf',
                                   style: poppinsTextStyle.copyWith(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
