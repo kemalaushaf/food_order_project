@@ -8,6 +8,8 @@ import 'package:food_order_project/models/size.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:food_order_project/api/notification_api.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:food_order_project/mobile.dart';
 
 class DetailScreen extends StatefulWidget {
   int id;
@@ -87,6 +89,41 @@ class _DetailScreen extends State<DetailScreen> {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => Admin_home(),
       ));
+
+  Future <void> _createPDF()async{
+    PdfDocument document = PdfDocument();
+    /*final page = document.pages.add();
+
+  page.graphics.drawString('Customer Order: $_image Quantity: $i Total Fee: RM$pricePromo',
+  PdfStandardFont(PdfFontFamily.helvetica, 18));*/
+
+    PdfGrid grid = PdfGrid();
+    grid.style = PdfGridStyle(
+      font: PdfStandardFont(PdfFontFamily.helvetica, 30),
+      cellPadding: PdfPaddings(left: 5, right: 2, top: 2, bottom: 2));
+    grid.columns.add(count: 3);
+    grid.headers.add(1);
+
+    PdfGridRow header = grid.headers[0];
+    header.cells[0].value = 'Order';
+    header.cells[1].value = 'Quantity';
+    header.cells[2].value = 'Total Fee';
+    
+    PdfGridRow row = grid.rows.add();
+    row.cells[0].value = '$_name';
+    row.cells[1].value = '$i';
+    row.cells[2].value = '$pricePromo';
+    
+    grid.draw(
+      page:document.pages.add(),
+      bounds: const Rect.fromLTWH(0, 0, 0, 0));
+    
+    List <int> bytes = document.save();
+    document.dispose();
+
+    saveAndLaunchFile(bytes, 'Order.pdf');
+  }
+  
 
   void _minus() {
     if (i > 1) {
@@ -179,6 +216,17 @@ class _DetailScreen extends State<DetailScreen> {
     }
 
     return Scaffold(
+       floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+         launchUrl(
+         "https://www.facebook.com/post/create");},
+        icon: const Icon(Icons.share),
+        label: const Text('Share to facebook'),
+        backgroundColor: Colors.orange,
+      ),
+       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+
+
       body: SafeArea(
         child: Stack(
           children: [
@@ -191,27 +239,7 @@ class _DetailScreen extends State<DetailScreen> {
               padding: EdgeInsets.all(20),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
-                      },
-                      child: Image.asset(
-                        'assets/images/btn_back.png',
-                        width: 120,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/btn_share.png',
-                        width: 120,
-                      ),
-                    ),
-                  ]),
+                 ),
             ),
             ListView(
               children: [
@@ -474,15 +502,17 @@ class _DetailScreen extends State<DetailScreen> {
                                 hoverElevation: 0,
                                 highlightElevation: 0,
                                 disabledElevation: 0,
-                                onPressed:()=>NotificationApi.showNotification(
+                                onPressed:() {
+                                NotificationApi.showNotification(
                                   title:'Admin',
                                   body:'NEW ORDER FROM CUSTOMER !!',
                                   payload: 'ORDER FROM CUSTOMER',
-                                ),
-                                /*onPressed: () {
-                                  launchUrl(
-                                      "https://wa.me/6281284904992?text=I%20want%20to%20buy%20$_name%20$i%20=%20RM%20$pricePromo");
-                                },*/
+                                );
+                                launchUrl(
+                                      "https://wa.me/6281284904992?text=I%20want%20to%20buy%20$_name%20$i%20=%20RM%20$pricePromo"
+                                );
+                                _createPDF();
+                                      },                              
                                 color: yellowColor,
                                 child: Text(
                                   'Buy',
